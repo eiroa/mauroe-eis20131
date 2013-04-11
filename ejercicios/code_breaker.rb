@@ -1,9 +1,10 @@
 class CodeBreaker
-  attr_reader :code, :life, :guessedLetters
+  attr_reader :code, :life, :guessedLetters, :currentState
   def initialize(code)
     @code = code
     @life = 5
     @guessedLetters = []
+    @currentState = code.tr( code,'*')
   end
 
 
@@ -16,6 +17,7 @@ class CodeBreaker
       if !(@guessedLetters.include?(letter))
         if(@code.include?(letter))
           @guessedLetters.push(letter)
+          @currentState = @code.tr( ('^' + @guessedLetters.join ), '*')
         else
           @life = (@life - 1 )
         end

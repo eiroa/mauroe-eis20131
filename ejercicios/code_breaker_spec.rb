@@ -13,14 +13,23 @@ describe CodeBreaker do
       code_breaker.guess('c')
       code_breaker.life.should eq initial_life-1
       expect(code_breaker.guessedLetters.length()).to eq(expected_size)
+      
+      
 
     end
 
   end
   
+  describe ' currentState initiated correctly' do
+    it 'should fully replace  the given code with several *' do
+      code_breaker = CodeBreaker.new('ingenieria')
+      expect(code_breaker.currentState).to eq '**********'
+    end
+  end
+  
   describe 'guess - guessing same letter' do
   
-    it 'should guess a letter, add it, but trying to guess same letter twice should do nothing' do
+    it 'should guess a letter, add it to guessed letters, but trying to guess same letter twice should do nothing' do
 
       code_breaker  = CodeBreaker.new('cat')
       expected_size = 1
@@ -67,18 +76,31 @@ describe CodeBreaker do
     end
   end
   
-  describe 'guess - verifying victory, testing gameWon ' do
+  describe 'guess - verifying currentState ' do
   
-    it 'should guess the code and verify victory' do
+    it 'should guess the code letter by letter and current State should show that correctly' do
 
       code_breaker  = CodeBreaker.new('batata')
       expected_size = 3
       code_breaker.guess('t')
-      code_breaker.guess('b')
+      expect(code_breaker.currentState).to eq '**t*t*'
       code_breaker.guess('a')
+      expect(code_breaker.currentState).to eq '*atata'
+      code_breaker.guess('b')
+      expect(code_breaker.currentState).to eq 'batata'
       expect(code_breaker.guessedLetters.size()).to eq 3
       expect(code_breaker.gameWon).to eq true
 
+    end
+  end
+  
+  describe 'guess/ gameWon - testing victory' do
+    it 'should guess the code and verify victory with gameWon method' do
+      code_breaker = CodeBreaker.new('pepe')
+      code_breaker.guess('p')
+      code_breaker.guess('e')
+      expect(code_breaker.guessedLetters.size()).to eq 2
+      expect(code_breaker.gameWon).to eq true
     end
   end
 end
