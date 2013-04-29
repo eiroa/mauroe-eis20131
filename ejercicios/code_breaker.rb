@@ -9,14 +9,14 @@ class CodeBreaker
 
 
   def newGame(code)
-    initialize(code)
+    initialize(code.downcase)
   end
 
   def guess(letter)
     if stillAlive && !(gameWon)
-      if !(@guessedLetters.include?(letter))
-        if(@code.include?(letter))
-          @guessedLetters.push(letter)
+      if !(@guessedLetters.include?(letter.downcase))
+        if(@code.include?(letter.downcase))
+          @guessedLetters.push(letter.downcase)
           @currentState = @code.tr( ('^' + @guessedLetters.join ), '*')
         else
           @life = (@life - 1 )
